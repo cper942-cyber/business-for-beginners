@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>การเริ่มต้นสร้างธุรกิจง่ายๆ สำหรับมือใหม่</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== โทนสีหลัก: น้ำตาล ครีม ทอง ===== */
+  :root {
+    --cream: #F8F2E7;
+    --cream-2: #EFE4D2;
+    --paper: #FFFBF4;
+    --brown-900: #3B2418;
+    --brown-700: #5C3D2E;
+    --brown-500: #8B5E3C;
+    --gold: #B8925A;
+    --gold-light: #D9BF8F;
+    --text: #3B2A20;
+    --muted: #7A6555;
+    --shadow: 0 10px 30px rgba(59, 36, 24, 0.12);
+    --radius: 18px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 17px;
+  }
+
+  h1, h2, h3, .logo { font-family: 'Noto Serif Thai', serif; color: var(--brown-900); line-height: 1.4; }
+
+  /* ===== แถบเมนูด้านบน ===== */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--brown-900);
+    border-bottom: 3px solid var(--gold);
+  }
+  .nav {
+    max-width: 1100px; margin: auto; padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .logo { color: var(--gold-light); font-size: 1.2rem; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .logo span.mark {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid var(--gold); display: grid; place-items: center; font-size: 1rem;
+  }
+  .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+  .nav-links a {
+    color: var(--cream-2); text-decoration: none; padding: 6px 14px; border-radius: 999px;
+    font-size: 0.95rem; transition: 0.25s;
+  }
+  .nav-links a:hover, .nav-links a.active { background: var(--gold); color: var(--brown-900); }
+
+  main { max-width: 1100px; margin: auto; padding: 40px 20px 60px; }
+  .page { display: none; animation: fade 0.5s ease; }
+  .page.show { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  /* ===== หน้าแรก ===== */
+  .hero {
+    text-align: center; padding: 60px 24px; border-radius: var(--radius);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(217,191,143,0.25), transparent 40%),
+      linear-gradient(135deg, var(--brown-700), var(--brown-900));
+    color: var(--cream); box-shadow: var(--shadow); position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 14px; border: 1px solid rgba(217,191,143,0.45);
+    border-radius: 12px; pointer-events: none;
+  }
+  .hero .eyebrow { color: var(--gold-light); letter-spacing: 3px; font-size: 0.85rem; text-transform: uppercase; }
+  .hero h1 { color: var(--cream); font-size: clamp(1.8rem, 4.5vw, 3rem); margin: 12px 0; }
+  .hero p { max-width: 640px; margin: auto; color: var(--cream-2); }
+  .divider { width: 80px; height: 2px; background: var(--gold); margin: 20px auto; }
+
+  .section-title { text-align: center; margin: 50px 0 24px; font-size: 1.6rem; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+  .card {
+    background: var(--paper); border-radius: var(--radius); padding: 30px 26px;
+    box-shadow: var(--shadow); text-decoration: none; color: inherit;
+    border: 1px solid var(--cream-2); border-top: 4px solid var(--gold);
+    transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(59,36,24,0.18); }
+  .card .num {
+    font-family: 'Noto Serif Thai', serif; font-size: 2.4rem; color: var(--gold); line-height: 1;
+  }
+  .card h3 { font-size: 1.3rem; margin: 10px 0; }
+  .card p { color: var(--muted); flex: 1; }
+  .card .go { margin-top: 18px; color: var(--brown-500); font-weight: 600; }
+
+  .tip-strip {
+    margin-top: 40px; background: var(--cream-2); border-radius: var(--radius);
+    padding: 24px 28px; border-left: 5px solid var(--brown-500);
+  }
+
+  /* ===== หน้าเนื้อหา ===== */
+  .topic-head {
+    background: linear-gradient(135deg, var(--brown-700), var(--brown-900));
+    color: var(--cream); padding: 40px 30px; border-radius: var(--radius); box-shadow: var(--shadow);
+  }
+  .topic-head .eyebrow { color: var(--gold-light); font-size: 0.9rem; letter-spacing: 2px; }
+  .topic-head h1 { color: var(--cream); font-size: clamp(1.6rem, 4vw, 2.4rem); margin: 6px 0 8px; }
+  .topic-head p { color: var(--cream-2); max-width: 720px; }
+
+  .block {
+    background: var(--paper); border-radius: var(--radius); padding: 30px;
+    margin-top: 26px; box-shadow: var(--shadow); border: 1px solid var(--cream-2);
+  }
+  .block h2 { font-size: 1.4rem; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .block h2::before { content: ""; width: 8px; height: 26px; background: var(--gold); border-radius: 4px; }
+  .block p + p { margin-top: 10px; }
+  .block ul, .block ol { padding-left: 24px; margin-top: 8px; }
+  .block li { margin: 6px 0; }
+  strong { color: var(--brown-700); }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 16px; }
+  .mini {
+    background: var(--cream); border-radius: 14px; padding: 20px; border: 1px solid var(--cream-2);
+  }
+  .mini .icon { font-size: 1.8rem; }
+  .mini h3 { font-size: 1.1rem; margin: 6px 0; }
+  .mini p { color: var(--muted); font-size: 0.97rem; }
+
+  .formula {
+    text-align: center; background: var(--brown-900); color: var(--gold-light);
+    font-family: 'Noto Serif Thai', serif; font-size: 1.25rem; padding: 18px; border-radius: 14px; margin: 16px 0;
+  }
+
+  .note {
+    background: #F3E8D3; border-left: 5px solid var(--gold); padding: 16px 20px;
+    border-radius: 10px; margin-top: 16px;
+  }
+  .warn { background: #F5E1D6; border-left-color: #A0522D; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.97rem; }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--cream-2); vertical-align: top; }
+  th { background: var(--brown-700); color: var(--cream); font-weight: 500; }
+  tr:nth-child(even) td { background: var(--cream); }
+  .table-wrap { overflow-x: auto; }
+
+  /* ขั้นตอน */
+  .steps { counter-reset: step; list-style: none; padding: 0 !important; }
+  .steps li {
+    counter-increment: step; position: relative; padding: 18px 20px 18px 74px;
+    background: var(--cream); border-radius: 14px; margin: 14px 0; border: 1px solid var(--cream-2);
+  }
+  .steps li::before {
+    content: counter(step); position: absolute; left: 18px; top: 18px;
+    width: 40px; height: 40px; border-radius: 50%; background: var(--brown-700); color: var(--gold-light);
+    display: grid; place-items: center; font-family: 'Noto Serif Thai', serif; font-weight: 700;
+  }
+  .steps h3 { font-size: 1.12rem; }
+  .steps p { color: var(--muted); }
+
+  /* Checklist */
+  .checklist label {
+    display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; cursor: pointer;
+  }
+  .checklist label:hover { background: var(--cream); }
+  .checklist input { accent-color: var(--brown-700); width: 20px; height: 20px; margin-top: 5px; flex-shrink: 0; }
+  .progress { height: 12px; background: var(--cream-2); border-radius: 999px; overflow: hidden; margin: 12px 0 6px; }
+  .progress div { height: 100%; width: 0; background: linear-gradient(90deg, var(--gold), var(--brown-500)); transition: width 0.4s; }
+
+  /* เครื่องคิดเลขจุดคุ้มทุน */
+  .calc { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 14px; }
+  .calc label { display: block; font-size: 0.93rem; color: var(--muted); margin-bottom: 4px; }
+  .calc input {
+    width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--gold-light);
+    background: var(--cream); font-family: inherit; font-size: 1rem; color: var(--text);
+  }
+  .calc input:focus { outline: 2px solid var(--gold); }
+  .result {
+    margin-top: 18px; padding: 20px; border-radius: 14px; background: var(--brown-900); color: var(--cream);
+  }
+  .result b { color: var(--gold-light); font-size: 1.2rem; }
+
+  /* ปุ่มนำทาง */
+  .pager { display: flex; justify-content: space-between; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 12px 24px; border-radius: 999px; text-decoration: none;
+    font-weight: 600; transition: 0.25s; border: 2px solid var(--brown-700);
+  }
+  .btn-solid { background: var(--brown-700); color: var(--cream); }
+  .btn-solid:hover { background: var(--brown-900); }
+  .btn-ghost { color: var(--brown-700); }
+  .btn-ghost:hover { background: var(--brown-700); color: var(--cream); }
+
+  /* สารบัญในบท */
+  .toc {
+    background: var(--paper); border: 1px solid var(--gold-light); border-radius: var(--radius);
+    padding: 20px 24px; margin-top: 26px; box-shadow: var(--shadow);
+  }
+  .toc h3 { font-size: 1.05rem; margin-bottom: 10px; }
+  .toc-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc-list button {
+    font-family: inherit; font-size: 0.92rem; background: var(--cream); color: var(--brown-700);
+    border: 1px solid var(--cream-2); padding: 6px 14px; border-radius: 999px; cursor: pointer; transition: 0.2s;
+  }
+  .toc-list button:hover { background: var(--brown-700); color: var(--cream); }
+
+  /* Business Model Canvas */
+  .canvas { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 16px; }
+  .canvas div { background: var(--cream); border: 1px dashed var(--gold); border-radius: 12px; padding: 14px 16px; }
+  .canvas b { display: block; color: var(--brown-700); font-family: 'Noto Serif Thai', serif; }
+  .canvas small { color: var(--muted); display: block; margin-top: 4px; font-size: 0.9rem; line-height: 1.6; }
+
+  /* Timeline */
+  .timeline { border-left: 3px solid var(--gold); margin: 16px 0 0 10px; padding-left: 26px; }
+  .timeline .t { position: relative; margin-bottom: 22px; }
+  .timeline .t::before {
+    content: ""; position: absolute; left: -35px; top: 6px; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--brown-700); border: 3px solid var(--gold-light);
+  }
+  .timeline h3 { font-size: 1.1rem; }
+
+  /* กรณีศึกษา */
+  .case { background: var(--cream); border-radius: 14px; padding: 20px 22px; margin-top: 16px; border-left: 5px solid var(--brown-500); }
+  .case h3 { font-size: 1.1rem; margin-bottom: 6px; }
+  .tag { display: inline-block; font-size: 0.8rem; padding: 2px 10px; border-radius: 999px; background: var(--gold-light); color: var(--brown-900); margin-bottom: 6px; }
+
+  /* แบบทดสอบ */
+  .q { background: var(--cream); border-radius: 14px; padding: 18px 20px; margin-top: 14px; }
+  .q p.qt { font-weight: 600; color: var(--brown-900); }
+  .q .opts { display: grid; gap: 8px; margin-top: 10px; }
+  .q button {
+    text-align: left; font-family: inherit; font-size: 0.97rem; padding: 10px 14px; border-radius: 10px;
+    border: 1px solid var(--gold-light); background: var(--paper); color: var(--text); cursor: pointer;
+  }
+  .q button:hover:not(:disabled) { border-color: var(--brown-500); }
+  .q button.right { background: #E3EBD3; border-color: #6B8E3D; }
+  .q button.wrong { background: #F2D9CF; border-color: #A0522D; }
+  .q .exp { margin-top: 10px; color: var(--muted); font-size: 0.95rem; display: none; }
+  #score { margin-top: 16px; font-weight: 600; color: var(--brown-700); }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-top: 30px; }
+  .stat { text-align: center; background: var(--paper); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--cream-2); }
+  .stat b { display: block; font-family: 'Noto Serif Thai', serif; font-size: 2rem; color: var(--gold); line-height: 1.2; }
+  .stat span { color: var(--muted); font-size: 0.95rem; }
+
+  footer {
+    background: var(--brown-900); color: var(--cream-2); text-align: center;
+    padding: 26px 20px; font-size: 0.92rem; border-top: 3px solid var(--gold);
+  }
+
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .block { padding: 22px 18px; }
+    .steps li { padding-left: 66px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#home" class="logo"><span class="mark">฿</span> เริ่มธุรกิจง่ายๆ</a>
+    <div class="nav-links">
+      <a href="#home" data-link="home">หน้าแรก</a>
+      <a href="#topic1" data-link="topic1">ธุรกิจคืออะไร</a>
+      <a href="#topic2" data-link="topic2">วิธีเริ่มต้น</a>
+      <a href="#topic3" data-link="topic3">ความเสี่ยงและผลลัพธ์</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ==================== หน้าแรก ==================== -->
+  <section class="page" id="home">
+    <div class="hero">
+      <div class="eyebrow">Business for Beginners</div>
+      <h1>การเริ่มต้นสร้างธุรกิจง่ายๆ<br>สำหรับมือใหม่</h1>
+      <div class="divider"></div>
+      <p>สื่อการเรียนรู้ที่จะพาคุณเข้าใจพื้นฐานธุรกิจตั้งแต่ศูนย์ เรียนรู้ทีละขั้น ด้วยภาษาที่เข้าใจง่าย พร้อมนำไปใช้ได้จริง</p>
+    </div>
+
+    <h2 class="section-title">เลือกหัวข้อที่อยากเรียนรู้</h2>
+    <div class="cards">
+      <a class="card" href="#topic1">
+        <div class="num">01</div>
+        <h3>ธุรกิจคืออะไร</h3>
+        <p>ทำความเข้าใจความหมาย องค์ประกอบ ประเภทของธุรกิจ และคำศัพท์พื้นฐานที่มือใหม่ต้องรู้</p>
+        <span class="go">เข้าสู่บทเรียน →</span>
+      </a>
+      <a class="card" href="#topic2">
+        <div class="num">02</div>
+        <h3>วิธีการเริ่มต้นธุรกิจ</h3>
+        <p>9 ขั้นตอนตั้งแต่หาไอเดีย ทดลองขาย วางแผนเงิน เรื่องกฎหมาย จนถึงเปิดขายจริง</p>
+        <span class="go">เข้าสู่บทเรียน →</span>
+      </a>
+      <a class="card" href="#topic3">
+        <div class="num">03</div>
+        <h3>ความเสี่ยงและผลลัพธ์ที่อาจเกิดขึ้น</h3>
+        <p>รู้จักความเสี่ยงแต่ละแบบ วิธีลดความเสี่ยง ผลลัพธ์ที่เป็นไปได้ และเครื่องคิดจุดคุ้มทุน</p>
+        <span class="go">เข้าสู่บทเรียน →</span>
+      </a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>3</b><span>บทเรียนหลัก</span></div>
+      <div class="stat"><b>30+</b><span>หัวข้อย่อย</span></div>
+      <div class="stat"><b>2</b><span>เครื่องมือคำนวณและเช็กลิสต์</span></div>
+      <div class="stat"><b>8</b><span>ข้อแบบทดสอบท้ายบท</span></div>
+    </div>
+
+    <div class="block">
+      <h2>สิ่งที่คุณจะได้เรียนรู้</h2>
+      <div class="grid-3">
+        <div class="mini"><div class="icon">📘</div><h3>พื้นฐานธุรกิจ</h3><p>ความหมาย องค์ประกอบ ประเภท รูปแบบการจดทะเบียน และ Business Model Canvas</p></div>
+        <div class="mini"><div class="icon">🧭</div><h3>ลงมือทำจริง</h3><p>ทดสอบไอเดีย เขียนแผน 1 หน้า คำนวณเงินลงทุน จดบัญชี ทำการตลาด และแผน 90 วันแรก</p></div>
+        <div class="mini"><div class="icon">🛡️</div><h3>รับมือความเสี่ยง</h3><p>ข้อผิดพลาดที่พบบ่อย ตัวเลขที่ต้องติดตาม แผนฉุกเฉิน กรณีศึกษา และจุดคุ้มทุน</p></div>
+      </div>
+    </div>
+
+    <div class="tip-strip">
+      <h3>💡 คำแนะนำก่อนเริ่มเรียน</h3>
+      <p>แนะนำให้อ่านเรียงตามลำดับ 1 → 2 → 3 และเตรียมสมุดไว้จดไอเดียของตัวเองระหว่างอ่าน ธุรกิจที่ดีไม่จำเป็นต้องเริ่มใหญ่ แต่ต้องเริ่มอย่างเข้าใจ</p>
+    </div>
+  </section>
+
+  <!-- ==================== หัวข้อ 1 ==================== -->
+  <section class="page" id="topic1">
+    <div class="topic-head">
+      <div class="eyebrow">บทเรียนที่ 01</div>
+      <h1>ธุรกิจคืออะไร</h1>
+      <p>ก่อนลงมือทำ เราต้องเข้าใจก่อนว่า "ธุรกิจ" จริงๆ แล้วคืออะไร และประกอบด้วยอะไรบ้าง</p>
+    </div>
+
+    <div class="toc"></div>
+
+    <div class="block">
+      <h2>ความหมายของธุรกิจ</h2>
+      <p><strong>ธุรกิจ</strong> คือ กิจกรรมที่เรานำ <strong>สินค้าหรือบริการ</strong> ไปแลกกับ <strong>เงิน</strong> จากลูกค้า โดยมีเป้าหมายให้รายได้มากกว่าค่าใช้จ่าย จนเกิดเป็น <strong>กำไร</strong></p>
+      <p>พูดง่ายๆ คือ <strong>"การแก้ปัญหาหรือตอบความต้องการของคนอื่น แล้วได้รับเงินเป็นผลตอบแทน"</strong> เช่น คนหิว → ร้านอาหาร, คนไม่มีเวลาซักผ้า → ร้านซักรีด, คนอยากสวย → ร้านเสริมสวย</p>
+      <div class="note">📌 ธุรกิจที่อยู่ได้นาน ไม่ได้เริ่มจาก "ฉันอยากขายอะไร" แต่เริ่มจาก <strong>"ลูกค้ามีปัญหาอะไรที่ฉันช่วยได้"</strong></div>
+    </div>
+
+    <div class="block">
+      <h2>องค์ประกอบสำคัญของธุรกิจ</h2>
+      <div class="grid-3">
+        <div class="mini"><div class="icon">🎁</div><h3>สินค้า / บริการ</h3><p>สิ่งที่เรานำเสนอให้ลูกค้า ต้องมีประโยชน์และตอบโจทย์ได้จริง</p></div>
+        <div class="mini"><div class="icon">👥</div><h3>ลูกค้า</h3><p>คนที่มีความต้องการและยอมจ่ายเงิน ไม่ใช่แค่ "ทุกคน" แต่ต้องชัดว่าเป็นใคร</p></div>
+        <div class="mini"><div class="icon">💰</div><h3>เงินทุน</h3><p>เงินที่ใช้เริ่มต้นและหมุนเวียน เช่น ค่าวัตถุดิบ ค่าเช่า ค่าอุปกรณ์</p></div>
+        <div class="mini"><div class="icon">🛠️</div><h3>การดำเนินงาน</h3><p>ขั้นตอนการผลิต การให้บริการ การส่งของ ที่ทำให้ลูกค้าได้รับสินค้า</p></div>
+        <div class="mini"><div class="icon">📣</div><h3>การตลาด</h3><p>วิธีทำให้ลูกค้ารู้จัก สนใจ และตัดสินใจซื้อ</p></div>
+        <div class="mini"><div class="icon">📈</div><h3>กำไร</h3><p>ผลตอบแทนที่ทำให้ธุรกิจอยู่รอดและเติบโตต่อได้</p></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>ประเภทของธุรกิจ (แบ่งตามสิ่งที่ทำ)</h2>
+      <div class="table-wrap">
+      <table>
+        <tr><th>ประเภท</th><th>ลักษณะ</th><th>ตัวอย่าง</th></tr>
+        <tr><td><strong>ธุรกิจผลิต</strong></td><td>นำวัตถุดิบมาแปรรูปเป็นสินค้าใหม่</td><td>ทำขนม ทำสบู่ เย็บเสื้อผ้า</td></tr>
+        <tr><td><strong>ธุรกิจซื้อมาขายไป</strong></td><td>ซื้อสินค้ามาแล้วขายต่อโดยบวกกำไร</td><td>ร้านขายของชำ ขายเสื้อผ้าออนไลน์</td></tr>
+        <tr><td><strong>ธุรกิจบริการ</strong></td><td>ขายแรงงาน ความรู้ หรือทักษะ ไม่มีสินค้าจับต้องได้</td><td>ร้านตัดผม รับสอนพิเศษ รับออกแบบกราฟิก</td></tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>รูปแบบการทำธุรกิจในประเทศไทย</h2>
+      <div class="table-wrap">
+      <table>
+        <tr><th>รูปแบบ</th><th>เหมาะกับ</th><th>ข้อดี</th><th>ข้อควรระวัง</th></tr>
+        <tr><td><strong>บุคคลธรรมดา (เจ้าของคนเดียว)</strong></td><td>มือใหม่ ธุรกิจเล็ก</td><td>เริ่มง่าย ค่าใช้จ่ายต่ำ ตัดสินใจเองได้</td><td>รับผิดชอบหนี้สินด้วยทรัพย์สินส่วนตัวทั้งหมด</td></tr>
+        <tr><td><strong>ห้างหุ้นส่วน</strong></td><td>ทำกับเพื่อนหรือครอบครัว 2 คนขึ้นไป</td><td>รวมเงินทุนและความสามารถ</td><td>ต้องตกลงเรื่องเงินและหน้าที่ให้ชัด</td></tr>
+        <tr><td><strong>บริษัทจำกัด</strong></td><td>ธุรกิจที่เริ่มโต มีรายได้มากขึ้น</td><td>น่าเชื่อถือ รับผิดชอบจำกัดตามหุ้น</td><td>มีขั้นตอนบัญชีและภาษีมากกว่า</td></tr>
+      </table>
+      </div>
+      <div class="note">💡 มือใหม่ส่วนใหญ่เริ่มจาก <strong>บุคคลธรรมดา</strong> ก่อน เมื่อธุรกิจโตและมั่นคงค่อยพิจารณาจดเป็นบริษัท</div>
+    </div>
+
+    <div class="block">
+      <h2>คำศัพท์พื้นฐานที่ต้องรู้</h2>
+      <ul>
+        <li><strong>รายได้ (Revenue)</strong> — เงินทั้งหมดที่ได้จากการขาย</li>
+        <li><strong>ต้นทุน (Cost)</strong> — เงินที่จ่ายออกไปเพื่อผลิตหรือขายสินค้า</li>
+        <li><strong>ต้นทุนคงที่ (Fixed Cost)</strong> — จ่ายเท่าเดิมทุกเดือนไม่ว่าขายได้เท่าไร เช่น ค่าเช่าร้าน</li>
+        <li><strong>ต้นทุนผันแปร (Variable Cost)</strong> — เพิ่มขึ้นตามจำนวนที่ขาย เช่น ค่าวัตถุดิบ ค่าแพ็กเกจ</li>
+        <li><strong>กำไร (Profit)</strong> — เงินที่เหลือหลังหักค่าใช้จ่ายทั้งหมด</li>
+        <li><strong>กระแสเงินสด (Cash Flow)</strong> — เงินที่ไหลเข้า-ออกจริงในแต่ละช่วง ธุรกิจมีกำไรแต่เงินสดหมดก็ล้มได้</li>
+        <li><strong>กลุ่มเป้าหมาย (Target Customer)</strong> — กลุ่มลูกค้าหลักที่เราตั้งใจขายให้</li>
+      </ul>
+      <div class="formula">กำไร = รายได้ − ต้นทุนทั้งหมด</div>
+      <p><strong>ตัวอย่าง:</strong> ขายกาแฟแก้วละ 50 บาท ต้นทุนวัตถุดิบแก้วละ 20 บาท เดือนนี้ขายได้ 1,000 แก้ว และมีค่าเช่า+ค่าไฟรวม 15,000 บาท</p>
+      <p>รายได้ = 50,000 บาท | ต้นทุน = 20,000 + 15,000 = 35,000 บาท | <strong>กำไร = 15,000 บาท</strong></p>
+    </div>
+
+    <div class="block">
+      <h2>ทำธุรกิจ กับ ทำงานประจำ ต่างกันอย่างไร</h2>
+      <div class="table-wrap">
+      <table>
+        <tr><th>เรื่อง</th><th>งานประจำ</th><th>ทำธุรกิจของตัวเอง</th></tr>
+        <tr><td><strong>รายได้</strong></td><td>เงินเดือนคงที่ ได้ทุกเดือน</td><td>ไม่แน่นอน บางเดือนมาก บางเดือนน้อย หรืออาจขาดทุน</td></tr>
+        <tr><td><strong>เวลา</strong></td><td>มีเวลาเข้า-ออกงานชัดเจน</td><td>ยืดหยุ่น แต่ช่วงแรกมักต้องทำงานมากกว่าเดิม</td></tr>
+        <tr><td><strong>ความรับผิดชอบ</strong></td><td>รับผิดชอบเฉพาะงานของตัวเอง</td><td>รับผิดชอบทุกอย่าง ทั้งขาย บัญชี ลูกค้า ปัญหา</td></tr>
+        <tr><td><strong>สวัสดิการ</strong></td><td>มีประกันสังคม วันลา โบนัส</td><td>ต้องจัดการเอง เช่น ประกันสังคมมาตรา 40 ประกันสุขภาพ</td></tr>
+        <tr><td><strong>โอกาสเติบโต</strong></td><td>ขึ้นอยู่กับองค์กร</td><td>ไม่จำกัด ขึ้นกับความสามารถและการลงมือของเรา</td></tr>
+      </table>
+      </div>
+      <div class="note">💡 หลายคนเลือก <strong>ทำธุรกิจเสริมควบคู่งานประจำ</strong> ก่อน เมื่อรายได้จากธุรกิจมั่นคงจริงค่อยตัดสินใจลาออก วิธีนี้ลดความเสี่ยงได้มาก</div>
+    </div>
+
+    <div class="block">
+      <h2>แนวคิดของผู้ประกอบการ (Mindset)</h2>
+      <p>ความรู้สำคัญ แต่ "วิธีคิด" สำคัญไม่แพ้กัน ผู้ประกอบการที่ไปได้ไกลมักมีลักษณะเหล่านี้</p>
+      <div class="grid-3">
+        <div class="mini"><div class="icon">👂</div><h3>ฟังลูกค้ามากกว่าฟังตัวเอง</h3><p>สิ่งที่เราคิดว่าดี อาจไม่ใช่สิ่งที่ลูกค้าอยากได้</p></div>
+        <div class="mini"><div class="icon">🔁</div><h3>ล้มแล้วลุกเร็ว</h3><p>มองความผิดพลาดเป็นบทเรียน ไม่ใช่ความล้มเหลวถาวร</p></div>
+        <div class="mini"><div class="icon">📊</div><h3>ตัดสินใจจากตัวเลข</h3><p>ดูยอดขายและต้นทุนจริง ไม่ใช่ใช้ความรู้สึกอย่างเดียว</p></div>
+        <div class="mini"><div class="icon">📚</div><h3>เรียนรู้ตลอดเวลา</h3><p>อ่าน ดูคลิป เข้าอบรม และเรียนรู้จากคนที่ทำมาก่อน</p></div>
+        <div class="mini"><div class="icon">⏳</div><h3>อดทนและมีวินัย</h3><p>ธุรกิจส่วนใหญ่ใช้เวลาหลายเดือนถึงหลายปีกว่าจะมั่นคง</p></div>
+        <div class="mini"><div class="icon">🤲</div><h3>ซื่อสัตย์กับลูกค้า</h3><p>ความเชื่อใจคือทรัพย์สินที่มีค่าที่สุดของธุรกิจเล็ก</p></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Business Model Canvas: แผนผังธุรกิจ 9 ช่อง</h2>
+      <p>เครื่องมือยอดนิยมที่ช่วยมองภาพรวมธุรกิจในหน้าเดียว ตัวอย่างนี้เป็น <strong>ร้านกาแฟเล็กๆ ใกล้มหาวิทยาลัย</strong></p>
+      <div class="canvas">
+        <div><b>1. ลูกค้าคือใคร</b><small>นักศึกษาและคนทำงานแถวมหาวิทยาลัย อายุ 18–30 ปี</small></div>
+        <div><b>2. คุณค่าที่มอบให้</b><small>กาแฟรสดี ราคาไม่แพง มีที่นั่งอ่านหนังสือ Wi-Fi แรง</small></div>
+        <div><b>3. ช่องทางเข้าถึงลูกค้า</b><small>หน้าร้าน, LINE สั่งล่วงหน้า, แอปส่งอาหาร</small></div>
+        <div><b>4. ความสัมพันธ์กับลูกค้า</b><small>บัตรสะสมแต้ม จำชื่อลูกค้าประจำ โปรช่วงสอบ</small></div>
+        <div><b>5. ช่องทางรายได้</b><small>ขายเครื่องดื่ม ขนม และเมล็ดกาแฟคั่ว</small></div>
+        <div><b>6. ทรัพยากรหลัก</b><small>เครื่องชงกาแฟ ทำเลร้าน บาริสต้าฝีมือดี</small></div>
+        <div><b>7. กิจกรรมหลัก</b><small>ชงเครื่องดื่ม ดูแลร้าน โพสต์โซเชียลมีเดีย</small></div>
+        <div><b>8. พันธมิตรหลัก</b><small>ร้านส่งเมล็ดกาแฟ ร้านเบเกอรี่ส่งขนม ชมรมในมหาวิทยาลัย</small></div>
+        <div><b>9. โครงสร้างต้นทุน</b><small>ค่าเช่า ค่าวัตถุดิบ ค่าแรง ค่าไฟ ค่าน้ำ ค่าการตลาด</small></div>
+      </div>
+      <div class="note">✍️ ลองหยิบกระดาษ แล้วเขียน 9 ช่องนี้สำหรับไอเดียของคุณเอง ถ้าช่องไหนตอบไม่ได้ แสดงว่ายังต้องศึกษาเพิ่ม</div>
+    </div>
+
+    <div class="block">
+      <h2>ธุรกิจออนไลน์ หรือ หน้าร้าน ดี?</h2>
+      <div class="table-wrap">
+      <table>
+        <tr><th>หัวข้อ</th><th>ธุรกิจออนไลน์</th><th>ธุรกิจหน้าร้าน</th></tr>
+        <tr><td><strong>เงินลงทุน</strong></td><td>ต่ำ เริ่มได้จากมือถือเครื่องเดียว</td><td>สูงกว่า มีค่าเช่า ตกแต่ง อุปกรณ์</td></tr>
+        <tr><td><strong>ลูกค้า</strong></td><td>เข้าถึงได้ทั่วประเทศ</td><td>เน้นลูกค้าในพื้นที่ใกล้เคียง</td></tr>
+        <tr><td><strong>การแข่งขัน</strong></td><td>สูงมาก ลูกค้าเปรียบเทียบราคาง่าย</td><td>แข่งกับร้านในย่านเดียวกัน</td></tr>
+        <tr><td><strong>ความท้าทาย</strong></td><td>ต้องถนัดถ่ายรูป ทำคอนเทนต์ และจัดส่ง</td><td>ทำเลสำคัญมาก ต้องดูแลร้านทุกวัน</td></tr>
+      </table>
+      </div>
+      <div class="note">💡 ปัจจุบันธุรกิจที่ดีมักใช้ <strong>ทั้งสองแบบผสมกัน</strong> เช่น มีหน้าร้านเล็กๆ และรับออร์เดอร์ออนไลน์ด้วย</div>
+    </div>
+
+    <div class="block">
+      <h2>ตัวอย่างไอเดียธุรกิจสำหรับมือใหม่ (แบ่งตามงบ)</h2>
+      <div class="grid-3">
+        <div class="mini"><div class="icon">🪙</div><h3>งบไม่เกิน 10,000 บาท</h3><p>ขายของออนไลน์แบบพรีออร์เดอร์, รับสอนพิเศษ, รับทำกราฟิก/ตัดต่อวิดีโอ, ขนมโฮมเมด, รับจ้างดูแลเพจ, ขายของมือสอง</p></div>
+        <div class="mini"><div class="icon">💵</div><h3>งบ 10,000–50,000 บาท</h3><p>รถเข็นขายเครื่องดื่ม, บูธตลาดนัด, รับซักรีดเล็กๆ, ทำสบู่/เทียนหอมแฮนด์เมด, รับถ่ายภาพ</p></div>
+        <div class="mini"><div class="icon">💎</div><h3>งบ 50,000 บาทขึ้นไป</h3><p>ร้านกาแฟเล็ก, ร้านอาหารตามสั่ง, แฟรนไชส์ขนาดเล็ก, ร้านเสริมสวย, ร้านขายของชำ</p></div>
+      </div>
+      <div class="note warn">⚠️ ไม่มีธุรกิจไหน "รวยเร็ว ไม่มีความเสี่ยง" ระวังการชวนลงทุนที่สัญญาผลตอบแทนสูงผิดปกติ หรือต้องหาคนมาสมัครต่อ เพราะอาจเป็นแชร์ลูกโซ่</div>
+    </div>
+
+    <div class="pager">
+      <a class="btn btn-ghost" href="#home">← กลับหน้าแรก</a>
+      <a class="btn btn-solid" href="#topic2">ถัดไป: วิธีการเริ่มต้นธุรกิจ →</a>
+    </div>
+  </section>
+
+  <!-- ==================== หัวข้อ 2 ==================== -->
+  <section class="page" id="topic2">
+    <div class="topic-head">
+      <div class="eyebrow">บทเรียนที่ 02</div>
+      <h1>วิธีการเริ่มต้นธุรกิจ</h1>
+      <p>เส้นทาง 9 ขั้นตอนสำหรับมือใหม่ เริ่มเล็ก ทดลองก่อน แล้วค่อยขยาย เพื่อไม่ให้เสียเงินโดยไม่จำเป็น</p>
+    </div>
+
+    <div class="toc"></div>
+
+    <div class="block">
+      <h2>9 ขั้นตอนเริ่มต้นธุรกิจ</h2>
+      <ol class="steps">
+        <li><h3>สำรวจตัวเอง</h3><p>ถามตัวเองว่าเราชอบอะไร ถนัดอะไร มีเงินทุนเท่าไร มีเวลาวันละกี่ชั่วโมง ธุรกิจที่ไปกับไลฟ์สไตล์ของเราจะทำได้นานกว่า</p></li>
+        <li><h3>หาไอเดียจาก "ปัญหา"</h3><p>สังเกตปัญหารอบตัว สิ่งที่คนบ่น หรือสิ่งที่คนยอมจ่ายเงินอยู่แล้ว จดไอเดียไว้ 5–10 ข้อ แล้วเลือกข้อที่เราทำได้จริงและมีคนต้องการ</p></li>
+        <li><h3>ศึกษาตลาดและคู่แข่ง</h3><p>ลูกค้าคือใคร อายุเท่าไร อยู่ที่ไหน ซื้ออะไร คู่แข่งขายราคาเท่าไร มีจุดอ่อนอะไร ลองคุยกับลูกค้าจริงอย่างน้อย 10–20 คน</p></li>
+        <li><h3>หาจุดเด่นของเรา</h3><p>ทำไมลูกค้าต้องเลือกเรา? อาจเป็นเพราะ ถูกกว่า อร่อยกว่า เร็วกว่า ใกล้กว่า หรือบริการดีกว่า ต้องตอบให้ได้ในประโยคเดียว</p></li>
+        <li><h3>ทดลองขายแบบเล็กๆ</h3><p>อย่าเพิ่งลงทุนก้อนใหญ่ ลองขายให้เพื่อน ขายออนไลน์ หรือเปิดบูธเล็กๆ ก่อน เพื่อดูว่ามีคนซื้อจริงไหม แล้วนำคำติชมมาปรับ</p></li>
+        <li><h3>วางแผนธุรกิจแบบง่าย</h3><p>เขียนให้ได้ว่า ขายอะไร ขายใคร ขายที่ไหน ตั้งราคาเท่าไร ต้นทุนเท่าไร หาลูกค้าอย่างไร ไม่ต้องยาว แค่ 1 หน้ากระดาษก็พอ</p></li>
+        <li><h3>วางแผนการเงิน</h3><p>คำนวณเงินลงทุนเริ่มต้น ค่าใช้จ่ายรายเดือน และ <strong>เตรียมเงินสำรองอย่างน้อย 3–6 เดือน</strong> สำคัญมาก: <strong>แยกบัญชีเงินธุรกิจออกจากเงินส่วนตัว</strong> และจดรายรับ-รายจ่ายทุกวัน</p></li>
+        <li><h3>จัดการเรื่องกฎหมายและภาษี</h3><p>จดทะเบียนพาณิชย์ (ถ้าเข้าข่าย) ขอใบอนุญาตที่จำเป็น เช่น อาหาร เครื่องสำอาง และยื่นภาษีเงินได้ทุกปี หากรายได้เกิน 1.8 ล้านบาทต่อปี ต้องจดทะเบียนภาษีมูลค่าเพิ่ม (VAT)</p></li>
+        <li><h3>เปิดขาย ทำการตลาด และปรับปรุง</h3><p>ใช้ช่องทางที่ลูกค้าอยู่ เช่น Facebook, LINE OA, TikTok, Shopee หรือหน้าร้าน ดูยอดขายทุกสัปดาห์ ฟังลูกค้า แล้วปรับปรุงอย่างต่อเนื่อง</p></li>
+      </ol>
+      <div class="note warn">⚠️ ข้อมูลกฎหมายและภาษีอาจมีการเปลี่ยนแปลง ควรตรวจสอบกับ กรมพัฒนาธุรกิจการค้า และ กรมสรรพากร ก่อนดำเนินการจริง</div>
+    </div>
+
+    <div class="block">
+      <h2>วิธีทดสอบไอเดียก่อนลงทุนจริง</h2>
+      <p>ก่อนเสียเงินก้อนใหญ่ ให้ตอบคำถามเหล่านี้ให้ได้ก่อน ถ้าตอบว่า "ใช่" ได้เกือบทั้งหมด แปลว่าไอเดียมีโอกาส</p>
+      <ol>
+        <li>ปัญหาที่เราจะแก้ <strong>เป็นปัญหาจริง</strong> ที่คนเจอบ่อย หรือแค่เราคิดไปเอง?</li>
+        <li>ตอนนี้คนแก้ปัญหานี้ด้วยวิธีไหน และ <strong>ยังไม่พอใจตรงไหน</strong>?</li>
+        <li>มีคน <strong>ยอมจ่ายเงินจริง</strong> ไหม (ไม่ใช่แค่บอกว่า "น่าสนใจ")?</li>
+        <li>เราสามารถทำได้ด้วย <strong>เงินและทักษะที่มีอยู่</strong> หรือหาเพิ่มได้ไม่ยาก?</li>
+        <li>ขายแล้ว <strong>มีกำไรเหลือ</strong> หลังหักต้นทุนทั้งหมด?</li>
+      </ol>
+      <p style="margin-top:14px"><strong>วิธีทดสอบง่ายๆ ที่ใช้เงินน้อย</strong></p>
+      <ul>
+        <li><strong>เปิดพรีออร์เดอร์</strong> — โพสต์ขายก่อน มีคนโอนเงินค่อยผลิต</li>
+        <li><strong>ทำแบบสอบถาม</strong> — ถามกลุ่มเป้าหมาย 20–50 คนผ่าน Google Form</li>
+        <li><strong>ออกบูธวันเดียว</strong> — ทดลองที่ตลาดนัดหรืองานอีเวนต์</li>
+        <li><strong>ทำตัวอย่างให้ลอง</strong> — แจกชิม ให้ทดลองใช้ แล้วขอคำติชม</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h2>ตัวอย่างแผนธุรกิจ 1 หน้า</h2>
+      <p>ตัวอย่างสมมติ: <strong>"ขนมคุกกี้โฮมเมด ขายออนไลน์"</strong></p>
+      <div class="table-wrap">
+      <table>
+        <tr><th style="width:30%">หัวข้อ</th><th>รายละเอียด</th></tr>
+        <tr><td><strong>ขายอะไร</strong></td><td>คุกกี้เนยสดโฮมเมด กล่องละ 12 ชิ้น หวานน้อย ไม่ใส่วัตถุกันเสีย</td></tr>
+        <tr><td><strong>ขายให้ใคร</strong></td><td>คนทำงานออฟฟิศอายุ 22–40 ปี ที่ชอบของหวานและซื้อเป็นของฝาก</td></tr>
+        <tr><td><strong>จุดเด่น</strong></td><td>อบใหม่ทุกวัน กล่องสวยพร้อมให้เป็นของขวัญ เขียนการ์ดให้ฟรี</td></tr>
+        <tr><td><strong>ราคา</strong></td><td>กล่องละ 189 บาท (ต้นทุนรวมประมาณ 85 บาท)</td></tr>
+        <tr><td><strong>ช่องทางขาย</strong></td><td>Instagram, LINE OA และส่งพัสดุทั่วประเทศ</td></tr>
+        <tr><td><strong>หาลูกค้าอย่างไร</strong></td><td>โพสต์คลิปอบขนม รีวิวจากลูกค้า โปรเทศกาล ฝากขายร้านกาแฟใกล้บ้าน</td></tr>
+        <tr><td><strong>เป้าหมาย 3 เดือน</strong></td><td>ขายได้ 150 กล่องต่อเดือน มีลูกค้าซื้อซ้ำ 30%</td></tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>ตัวอย่างการคำนวณเงินลงทุนเริ่มต้น</h2>
+      <p>ต่อจากตัวอย่างร้านคุกกี้ออนไลน์ (ตัวเลขโดยประมาณ ใช้เพื่อการเรียนรู้)</p>
+      <div class="table-wrap">
+      <table>
+        <tr><th>รายการ</th><th>ประเภท</th><th style="text-align:right">จำนวนเงิน (บาท)</th></tr>
+        <tr><td>เตาอบ เครื่องผสม อุปกรณ์เบเกอรี่</td><td>ลงทุนครั้งเดียว</td><td style="text-align:right">8,000</td></tr>
+        <tr><td>วัตถุดิบล็อตแรก</td><td>หมุนเวียน</td><td style="text-align:right">3,000</td></tr>
+        <tr><td>กล่อง สติกเกอร์ ถุง บรรจุภัณฑ์</td><td>หมุนเวียน</td><td style="text-align:right">2,000</td></tr>
+        <tr><td>ออกแบบโลโก้ ถ่ายรูปสินค้า</td><td>ลงทุนครั้งเดียว</td><td style="text-align:right">1,500</td></tr>
+        <tr><td>ค่าโฆษณาเดือนแรก</td><td>การตลาด</td><td style="text-align:right">1,500</td></tr>
+        <tr><td>เงินสำรองฉุกเฉิน (3 เดือน)</td><td>สำรอง</td><td style="text-align:right">9,000</td></tr>
+        <tr><td><strong>รวมเงินที่ควรเตรียม</strong></td><td></td><td style="text-align:right"><strong>25,000</strong></td></tr>
+      </table>
+      </div>
+      <div class="note">💡 มือใหม่มักลืม <strong>เงินสำรอง</strong> ซึ่งเป็นสิ่งที่ช่วยให้ธุรกิจผ่านช่วงเดือนที่ขายไม่ดีไปได้</div>
+    </div>
+
+    <div class="block">
+      <h2>ตั้งราคาอย่างไรให้ไม่ขาดทุน</h2>
+      <p>มือใหม่มักตั้งราคาถูกเกินไปเพราะกลัวขายไม่ได้ ซึ่งทำให้ทำงานหนักแต่ไม่มีกำไร วิธีง่ายๆ คือ</p>
+      <div class="formula">ราคาขาย = ต้นทุนต่อชิ้น + ค่าใช้จ่ายแฝง + กำไรที่ต้องการ</div>
+      <ul>
+        <li>อย่าลืมรวม <strong>ค่าแพ็กเกจ ค่าส่ง ค่าธรรมเนียมแพลตฟอร์ม ค่าโฆษณา</strong> และ <strong>ค่าแรงของตัวเอง</strong></li>
+        <li>เทียบราคากับคู่แข่ง แต่ไม่จำเป็นต้องถูกที่สุด ถ้าเรามีจุดเด่นที่ชัดเจน</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h2>เงินทุนมาจากไหนได้บ้าง</h2>
+      <div class="grid-3">
+        <div class="mini"><div class="icon">🐷</div><h3>เงินเก็บส่วนตัว</h3><p>ปลอดภัยที่สุด ไม่มีดอกเบี้ย แต่ควรใช้เฉพาะเงินที่เสียได้</p></div>
+        <div class="mini"><div class="icon">🤝</div><h3>ครอบครัว / หุ้นส่วน</h3><p>ควรทำข้อตกลงเป็นลายลักษณ์อักษร เพื่อรักษาความสัมพันธ์</p></div>
+        <div class="mini"><div class="icon">🏦</div><h3>สินเชื่อ SME</h3><p>มีดอกเบี้ยและต้องผ่อนทุกเดือน ควรกู้เมื่อมั่นใจว่าธุรกิจมีรายได้แล้ว</p></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Checklist ก่อนเปิดธุรกิจ</h2>
+      <p>ติ๊กทีละข้อเพื่อเช็กความพร้อมของคุณ</p>
+      <div class="progress"><div id="bar"></div></div>
+      <p id="progressText" style="color:var(--muted);font-size:0.95rem">พร้อมแล้ว 0 / 10 ข้อ</p>
+      <div class="checklist" id="checklist">
+        <label><input type="checkbox"> รู้ว่าจะขายอะไร และแก้ปัญหาอะไรให้ลูกค้า</label>
+        <label><input type="checkbox"> รู้ว่ากลุ่มลูกค้าหลักคือใคร</label>
+        <label><input type="checkbox"> ศึกษาคู่แข่งอย่างน้อย 3 ราย</label>
+        <label><input type="checkbox"> มีจุดเด่นที่ทำให้ลูกค้าเลือกเรา</label>
+        <label><input type="checkbox"> ทดลองขายแล้วมีคนซื้อจริง</label>
+        <label><input type="checkbox"> คำนวณต้นทุนและตั้งราคาที่มีกำไร</label>
+        <label><input type="checkbox"> มีเงินสำรองอย่างน้อย 3 เดือน</label>
+        <label><input type="checkbox"> แยกบัญชีธุรกิจกับบัญชีส่วนตัวแล้ว</label>
+        <label><input type="checkbox"> ตรวจสอบเรื่องใบอนุญาตและภาษีแล้ว</label>
+        <label><input type="checkbox"> เลือกช่องทางขายและการตลาดแล้ว</label>
+      </div>
+    </div>
+
+    <div class="pager">
+      <a class="btn btn-ghost" href="#topic1">← ก่อนหน้า: ธุรกิจคืออะไร</a>
+      <a class="btn btn-solid" href="#topic3">ถัดไป: ความเสี่ยงและผลลัพธ์ →</a>
+    </div>
+  </section>
+
+  <!-- ==================== หัวข้อ 3 ==================== -->
+  <section class="page" id="topic3">
+    <div class="topic-head">
+      <div class="eyebrow">บทเรียนที่ 03</div>
+      <h1>ความเสี่ยงและผลลัพธ์ที่อาจจะเกิดขึ้น</h1>
+      <p>ทุกธุรกิจมีความเสี่ยง สิ่งสำคัญไม่ใช่การหนีความเสี่ยง แต่คือการรู้จักมันและเตรียมรับมือให้พร้อม</p>
+    </div>
+
+    <div class="block">
+      <h2>ความเสี่ยงที่มือใหม่ควรรู้</h2>
+      <div class="table-wrap">
+      <table>
+        <tr><th>ความเสี่ยง</th><th>ตัวอย่าง</th><th>วิธีลดความเสี่ยง</th></tr>
+        <tr><td><strong>💸 การเงิน</strong></td><td>เงินทุนหมดก่อนธุรกิจมีกำไร, กู้มากเกินไป</td><td>เริ่มเล็ก มีเงินสำรอง จดบัญชีทุกวัน ไม่ใช้เงินที่เสียไม่ได้</td></tr>
+        <tr><td><strong>🛒 ตลาด</strong></td><td>ไม่มีคนซื้อ, ความต้องการเปลี่ยนไป</td><td>ทดลองขายก่อนลงทุนจริง ฟังเสียงลูกค้าสม่ำเสมอ</td></tr>
+        <tr><td><strong>⚔️ การแข่งขัน</strong></td><td>คู่แข่งตัดราคา, มีร้านใหม่เปิดใกล้ๆ</td><td>สร้างจุดเด่นและความสัมพันธ์ที่ดีกับลูกค้า ไม่แข่งด้วยราคาอย่างเดียว</td></tr>
+        <tr><td><strong>⚙️ การดำเนินงาน</strong></td><td>วัตถุดิบขาด, ของเสีย, พนักงานลาออก</td><td>มีผู้จำหน่ายสำรอง เขียนขั้นตอนการทำงานให้ชัด</td></tr>
+        <tr><td><strong>📜 กฎหมาย</strong></td><td>ไม่มีใบอนุญาต, ละเมิดลิขสิทธิ์, ภาษีย้อนหลัง</td><td>ศึกษากฎหมายที่เกี่ยวข้อง ปรึกษาผู้เชี่ยวชาญ ยื่นภาษีให้ถูกต้อง</td></tr>
+        <tr><td><strong>🧠 ตัวเอง</strong></td><td>เหนื่อยล้า หมดไฟ ไม่มีเวลาให้ครอบครัว</td><td>วางตารางเวลา ดูแลสุขภาพ ขอคำแนะนำจากคนที่มีประสบการณ์</td></tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>สัญญาณเตือนที่ต้องระวัง</h2>
+      <ul>
+        <li>ยอดขายลดลงต่อเนื่องหลายเดือน แต่ยังไม่รู้สาเหตุ</li>
+        <li>ต้องเอาเงินส่วนตัวมาเติมธุรกิจทุกเดือน</li>
+        <li>ไม่รู้ว่าเดือนนี้กำไรหรือขาดทุนเท่าไร</li>
+        <li>ลูกค้าเก่าไม่กลับมาซื้อซ้ำ และมีคำติชมเรื่องเดิมซ้ำๆ</li>
+        <li>เริ่มกู้เงินใหม่เพื่อจ่ายหนี้เก่า</li>
+      </ul>
+      <div class="note warn">⚠️ ถ้าเจอหลายข้อพร้อมกัน ควรหยุดทบทวนแผน ลดค่าใช้จ่าย และตั้ง "ขีดจำกัดการขาดทุน" ว่าจะยอมเสียได้เท่าไรก่อนตัดสินใจหยุดหรือเปลี่ยนแนวทาง</div>
+    </div>
+
+    <div class="block">
+      <h2>ผลลัพธ์ที่อาจเกิดขึ้น</h2>
+      <div class="grid-3">
+        <div class="mini"><div class="icon">🌟</div><h3>ประสบความสำเร็จ</h3><p>มีกำไรสม่ำเสมอ ลูกค้ากลับมาซื้อซ้ำ ขยายสาขาหรือสินค้าได้ สร้างรายได้และอิสระทางการเงิน</p></div>
+        <div class="mini"><div class="icon">⚖️</div><h3>เสมอตัว / ค่อยๆ โต</h3><p>ธุรกิจพอเลี้ยงตัวเองได้ ยังไม่มีกำไรมาก เป็นช่วงที่ต้องอดทน ปรับปรุง และหาจุดเด่นเพิ่ม</p></div>
+        <div class="mini"><div class="icon">📉</div><h3>ขาดทุน / ปิดกิจการ</h3><p>เกิดขึ้นได้กับทุกคน หากวางแผนดีจะเสียหายไม่มาก และได้ประสบการณ์ไปเริ่มใหม่ได้ดีกว่าเดิม</p></div>
+      </div>
+      <div class="note">💡 ผู้ประกอบการที่ประสบความสำเร็จหลายคนล้มเหลวมาก่อน สิ่งที่ต่างคือ เขา <strong>เริ่มเล็ก เรียนรู้เร็ว และไม่เดิมพันทุกอย่างในครั้งเดียว</strong></div>
+    </div>
+
+    <div class="block">
+      <h2>เครื่องคิดจุดคุ้มทุน</h2>
+      <p><strong>จุดคุ้มทุน</strong> คือ จำนวนที่ต้องขายให้ได้ต่อเดือนเพื่อให้ "ไม่ขาดทุน" (รายได้ = ค่าใช้จ่าย) ลองใส่ตัวเลขของคุณดู</p>
+      <div class="formula">จุดคุ้มทุน = ต้นทุนคงที่ ÷ (ราคาขาย − ต้นทุนผันแปรต่อชิ้น)</div>
+      <div class="calc">
+        <div><label for="fixed">ต้นทุนคงที่ต่อเดือน (บาท)</label><input type="number" id="fixed" value="15000" min="0"></div>
+        <div><label for="price">ราคาขายต่อชิ้น (บาท)</label><input type="number" id="price" value="50" min="0"></div>
+        <div><label for="variable">ต้นทุนผันแปรต่อชิ้น (บาท)</label><input type="number" id="variable" value="20" min="0"></div>
+      </div>
+      <div class="result" id="result"></div>
+    </div>
+
+    <div class="block">
+      <h2>สรุปบทเรียนทั้งหมด</h2>
+      <ol>
+        <li>ธุรกิจ คือ การแก้ปัญหาให้ลูกค้าแล้วได้รับเงินเป็นผลตอบแทน</li>
+        <li>เริ่มจากเล็กๆ ทดลองขายก่อน แล้วค่อยลงทุนเพิ่ม</li>
+        <li>แยกเงินธุรกิจกับเงินส่วนตัว และจดบัญชีทุกวัน</li>
+        <li>รู้จักความเสี่ยงล่วงหน้า และเตรียมเงินสำรองไว้เสมอ</li>
+        <li>ฟังลูกค้า เรียนรู้จากความผิดพลาด และปรับปรุงอย่างต่อเนื่อง</li>
+      </ol>
+    </div>
+
+    <div class="pager">
+      <a class="btn btn-ghost" href="#topic2">← ก่อนหน้า: วิธีการเริ่มต้นธุรกิจ</a>
+      <a class="btn btn-solid" href="#home">กลับหน้าแรก ⌂</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © สื่อการสอน "การเริ่มต้นสร้างธุรกิจง่ายๆ สำหรับมือใหม่" — เรียนรู้วันนี้ เพื่อธุรกิจที่มั่นคงในวันหน้า
+</footer>
+
+<script>
+  // ===== ระบบเปลี่ยนหน้า (ใช้ # ใน URL) =====
+  const pages = document.querySelectorAll('.page');
+  const links = document.querySelectorAll('.nav-links a');
+
+  function showPage() {
+    const id = location.hash.replace('#', '') || 'home';
+    const target = document.getElementById(id) ? id : 'home';
+    pages.forEach(p => p.classList.toggle('show', p.id === target));
+    links.forEach(a => a.classList.toggle('active', a.dataset.link === target));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  window.addEventListener('hashchange', showPage);
+  showPage();
+
+  // ===== Checklist =====
+  const boxes = document.querySelectorAll('#checklist input');
+  function updateProgress() {
+    const done = [...boxes].filter(b => b.checked).length;
+    document.getElementById('bar').style.width = (done / boxes.length * 100) + '%';
+    let msg = `พร้อมแล้ว ${done} / ${boxes.length} ข้อ`;
+    if (done === boxes.length) msg += ' 🎉 คุณพร้อมเริ่มต้นธุรกิจแล้ว!';
+    document.getElementById('progressText').textContent = msg;
+  }
+  boxes.forEach(b => b.addEventListener('change', updateProgress));
+
+  // ===== เครื่องคิดจุดคุ้มทุน =====
+  const fmt = n => n.toLocaleString('th-TH', { maximumFractionDigits: 0 });
+  function calcBreakEven() {
+    const fixed = parseFloat(document.getElementById('fixed').value) || 0;
+    const price = parseFloat(document.getElementById('price').value) || 0;
+    const variable = parseFloat(document.getElementById('variable').value) || 0;
+    const margin = price - variable;
+    const out = document.getElementById('result');
+
+    if (margin <= 0) {
+      out.innerHTML = '⚠️ ราคาขายต้อง <b>มากกว่า</b> ต้นทุนต่อชิ้น ไม่เช่นนั้นยิ่งขายยิ่งขาดทุน';
+      return;
+    }
+    const units = Math.ceil(fixed / margin);
+    out.innerHTML = `
+      กำไรต่อชิ้น: <b>${fmt(margin)} บาท</b><br>
+      ต้องขายให้ได้อย่างน้อย <b>${fmt(units)} ชิ้นต่อเดือน</b> (ประมาณ <b>${fmt(Math.ceil(units / 30))} ชิ้นต่อวัน</b>)<br>
+      หรือมียอดขายอย่างน้อย <b>${fmt(units * price)} บาทต่อเดือน</b> จึงจะคุ้มทุน`;
+  }
+  document.querySelectorAll('.calc input').forEach(i => i.addEventListener('input', calcBreakEven));
+  calcBreakEven();
+</script>
+</body>
+</html>
